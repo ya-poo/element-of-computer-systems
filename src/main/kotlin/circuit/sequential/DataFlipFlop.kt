@@ -10,9 +10,7 @@ class DataFlipFlop {
     fun current(): Bit = prev
 
     fun tick(input: Bit): Bit {
-        val out = prev
         prev = input
-
-        return out
+        return input
     }
 }
