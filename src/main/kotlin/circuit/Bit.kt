@@ -146,3 +146,41 @@ fun mux8Way16(
     val efgh = mux4Way16(e, f, g, h, listOf(sel[0], sel[1]))
     return mux(abcd, efgh, sel[2])
 }
+
+fun dMux4Way(
+    input: Bit,
+    sel: List<Bit>,
+): List<Bit> {
+    // [a, b, c, d] = [in, 0, 0, 0] if sel = 00
+    //                [0, in, 0, 0] if sel = 01
+    //                [0, 0, in, 0] if sel = 10
+    //                [0, 0, 0, in] if sel = 11
+    require(sel.size == 2) { "invalid length of sel: ${sel.size}" }
+
+    val (ab, cd) = dMux(input, sel[1])
+    return buildList {
+        addAll(dMux(ab, sel[0]).toList())
+        addAll(dMux(cd, sel[0]).toList())
+    }
+}
+
+fun dMux8Way(
+    input: Bit,
+    sel: List<Bit>,
+): List<Bit> {
+    // [a, b, c, d, e, f, g, h] = [in, 0,  0,  0,  0,  0,  0,  0] if sel = 000
+    //                            [0, in,  0,  0,  0,  0,  0,  0] if sel = 001
+    //                            [0,  0, in,  0,  0,  0,  0,  0] if sel = 010
+    //                            [0,  0,  0, in,  0,  0,  0,  0] if sel = 011
+    //                            [0,  0,  0,  0, in,  0,  0,  0] if sel = 100
+    //                            [0,  0,  0,  0,  0, in,  0,  0] if sel = 101
+    //                            [0,  0,  0,  0,  0,  0, in,  0] if sel = 110
+    //                            [0,  0,  0,  0,  0,  0,  0, in] if sel = 111
+    require(sel.size == 3) { "invalid length of sel: ${sel.size}" }
+
+    val (abcd, efgh) = dMux(input, sel[2])
+    return buildList {
+        addAll(dMux4Way(abcd, listOf(sel[0], sel[1])))
+        addAll(dMux4Way(efgh, listOf(sel[0], sel[1])))
+    }
+}

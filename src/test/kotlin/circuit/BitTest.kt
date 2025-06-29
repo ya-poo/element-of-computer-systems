@@ -138,4 +138,36 @@ class BitTest : FunSpec({
             mux8Way16(a, b, c, d, e, f, g, h, listOf(Bit.HIGH, Bit.HIGH, Bit.HIGH)) shouldBe h
         }
     }
+
+    test("dMux4Way関数") {
+        dMux4Way(Bit.HIGH, listOf(Bit.LOW, Bit.LOW)) shouldBe listOf(Bit.HIGH, Bit.LOW, Bit.LOW, Bit.LOW)
+        dMux4Way(Bit.HIGH, listOf(Bit.HIGH, Bit.LOW)) shouldBe listOf(Bit.LOW, Bit.HIGH, Bit.LOW, Bit.LOW)
+        dMux4Way(Bit.HIGH, listOf(Bit.LOW, Bit.HIGH)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.HIGH, Bit.LOW)
+        dMux4Way(Bit.HIGH, listOf(Bit.HIGH, Bit.HIGH)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.HIGH)
+
+        dMux4Way(Bit.LOW, listOf(Bit.LOW, Bit.LOW)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
+        dMux4Way(Bit.LOW, listOf(Bit.HIGH, Bit.LOW)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
+        dMux4Way(Bit.LOW, listOf(Bit.LOW, Bit.HIGH)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
+        dMux4Way(Bit.LOW, listOf(Bit.HIGH, Bit.HIGH)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
+    }
+
+    test("dMux8Way関数") {
+        dMux8Way(Bit.HIGH, listOf(Bit.LOW, Bit.LOW, Bit.LOW)) shouldBe listOf(Bit.HIGH, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
+        dMux8Way(Bit.HIGH, listOf(Bit.HIGH, Bit.LOW, Bit.LOW)) shouldBe listOf(Bit.LOW, Bit.HIGH, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
+        dMux8Way(Bit.HIGH, listOf(Bit.LOW, Bit.HIGH, Bit.LOW)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.HIGH, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
+        dMux8Way(Bit.HIGH, listOf(Bit.HIGH, Bit.HIGH, Bit.LOW)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.HIGH, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
+        dMux8Way(Bit.HIGH, listOf(Bit.LOW, Bit.LOW, Bit.HIGH)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.HIGH, Bit.LOW, Bit.LOW, Bit.LOW)
+        dMux8Way(Bit.HIGH, listOf(Bit.HIGH, Bit.LOW, Bit.HIGH)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.HIGH, Bit.LOW, Bit.LOW)
+        dMux8Way(Bit.HIGH, listOf(Bit.LOW, Bit.HIGH, Bit.HIGH)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.HIGH, Bit.LOW)
+        dMux8Way(Bit.HIGH, listOf(Bit.HIGH, Bit.HIGH, Bit.HIGH)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.HIGH)
+
+        dMux8Way(Bit.LOW, listOf(Bit.LOW, Bit.LOW, Bit.LOW)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
+        dMux8Way(Bit.LOW, listOf(Bit.HIGH, Bit.LOW, Bit.LOW)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
+        dMux8Way(Bit.LOW, listOf(Bit.LOW, Bit.HIGH, Bit.LOW)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
+        dMux8Way(Bit.LOW, listOf(Bit.HIGH, Bit.HIGH, Bit.LOW)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
+        dMux8Way(Bit.LOW, listOf(Bit.LOW, Bit.LOW, Bit.HIGH)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
+        dMux8Way(Bit.LOW, listOf(Bit.HIGH, Bit.LOW, Bit.HIGH)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
+        dMux8Way(Bit.LOW, listOf(Bit.LOW, Bit.HIGH, Bit.HIGH)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
+        dMux8Way(Bit.LOW, listOf(Bit.HIGH, Bit.HIGH, Bit.HIGH)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
+    }
 })
