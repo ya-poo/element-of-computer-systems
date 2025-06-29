@@ -3,14 +3,13 @@ package me.yapoo.computer.circuit
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
-import io.kotest.property.arbitrary.int
+import io.kotest.property.arbitrary.enum
 import io.kotest.property.arbitrary.list
-import io.kotest.property.arbitrary.map
 import io.kotest.property.checkAll
 
 class AdderTest : FunSpec({
     val length = 16
-    val bitArb = Arb.int(0, 1).map { if (it == 0) Bit.LOW else Bit.HIGH }
+    val bitArb = Arb.enum<Bit>()
     val bitListArb = Arb.list(bitArb, length..length)
 
     test("halfAdder") {

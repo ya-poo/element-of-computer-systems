@@ -42,7 +42,7 @@ fun dMux(
     input: Bit,
     sel: Bit,
 ): Pair<Bit, Bit> {
-    // if sel=0 then {in, 0} else {o, in}
+    // if sel=0 then {in, 0} else {0, in}
     return Pair(input and sel.not(), input and sel)
 }
 
@@ -89,4 +89,60 @@ fun mux(
     return a.zip(b).map { (f, s) ->
         (f and sel.not()) or (s and sel)
     }
+}
+
+fun mux4Way16(
+    a: List<Bit>,
+    b: List<Bit>,
+    c: List<Bit>,
+    d: List<Bit>,
+    sel: List<Bit>,
+): List<Bit> {
+    // out = a if sel = 00
+    //       b if sel = 01
+    //       c if sel = 10
+    //       d if sel = 11
+    require(a.size == 16) { "invalid length of a: ${a.size}" }
+    require(b.size == 16) { "invalid length of a: ${b.size}" }
+    require(c.size == 16) { "invalid length of a: ${c.size}" }
+    require(d.size == 16) { "invalid length of a: ${d.size}" }
+    require(sel.size == 2) { "invalid length of sel: ${sel.size}" }
+
+    val ab = mux(a, b, sel[0])
+    val cd = mux(c, d, sel[0])
+    return mux(ab, cd, sel[1])
+}
+
+fun mux8Way16(
+    a: List<Bit>,
+    b: List<Bit>,
+    c: List<Bit>,
+    d: List<Bit>,
+    e: List<Bit>,
+    f: List<Bit>,
+    g: List<Bit>,
+    h: List<Bit>,
+    sel: List<Bit>,
+): List<Bit> {
+    // out = a if sel = 000
+    //       b if sel = 001
+    //       c if sel = 010
+    //       d if sel = 011
+    //       e if sel = 100
+    //       f if sel = 101
+    //       g if sel = 110
+    //       h if sel = 111
+    require(a.size == 16) { "invalid length of a: ${a.size}" }
+    require(b.size == 16) { "invalid length of b: ${b.size}" }
+    require(c.size == 16) { "invalid length of c: ${c.size}" }
+    require(d.size == 16) { "invalid length of d: ${d.size}" }
+    require(e.size == 16) { "invalid length of e: ${e.size}" }
+    require(f.size == 16) { "invalid length of f: ${f.size}" }
+    require(g.size == 16) { "invalid length of g: ${g.size}" }
+    require(h.size == 16) { "invalid length of h: ${h.size}" }
+    require(sel.size == 3) { "invalid length of sel: ${sel.size}" }
+
+    val abcd = mux4Way16(a, b, c, d, listOf(sel[0], sel[1]))
+    val efgh = mux4Way16(e, f, g, h, listOf(sel[0], sel[1]))
+    return mux(abcd, efgh, sel[2])
 }
