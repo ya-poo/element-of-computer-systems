@@ -6,6 +6,8 @@ class Register {
     private val length = 16
     private val bits = List(length) { OneBitRegister() }
 
+    fun current(): List<Bit> = bits.map { it.current() }
+
     fun tick(
         input: List<Bit>,
         load: Bit,

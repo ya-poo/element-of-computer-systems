@@ -5,7 +5,7 @@ import me.yapoo.computer.circuit.dMuxNWay
 import me.yapoo.computer.circuit.muxNWay16
 
 class RAM(
-    n: Int,
+    private val n: Int,
 ) {
     init {
         require(n in listOf(8, 64, 512, 4096, 16384)) {
@@ -13,7 +13,7 @@ class RAM(
         }
     }
 
-    val k: Int = when (n) {
+    private val k: Int = when (n) {
         8 -> 3
         64 -> 6
         512 -> 9
