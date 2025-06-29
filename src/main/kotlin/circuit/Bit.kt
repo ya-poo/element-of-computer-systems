@@ -1,4 +1,4 @@
-package me.yapoo.computer
+package me.yapoo.computer.circuit
 
 enum class Bit {
     LOW,
