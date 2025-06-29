@@ -111,65 +111,7 @@ class BitTest : FunSpec({
         result4.second shouldBe Bit.LOW
     }
 
-    test("mux4Way16関数") {
-        val bitArb = Arb.enum<Bit>()
-        val bitListArb = Arb.list(bitArb, 16..16)
 
-        checkAll(bitListArb, bitListArb, bitListArb, bitListArb) { a, b, c, d ->
-            mux4Way16(a, b, c, d, listOf(Bit.LOW, Bit.LOW)) shouldBe a
-            mux4Way16(a, b, c, d, listOf(Bit.HIGH, Bit.LOW)) shouldBe b
-            mux4Way16(a, b, c, d, listOf(Bit.LOW, Bit.HIGH)) shouldBe c
-            mux4Way16(a, b, c, d, listOf(Bit.HIGH, Bit.HIGH)) shouldBe d
-        }
-    }
-
-    test("mux8Way16関数") {
-        val bitArb = Arb.enum<Bit>()
-        val bitListArb = Arb.list(bitArb, 16..16)
-
-        checkAll(bitListArb, bitListArb, bitListArb, bitListArb, bitListArb, bitListArb, bitListArb, bitListArb) { a, b, c, d, e, f, g, h ->
-            mux8Way16(a, b, c, d, e, f, g, h, listOf(Bit.LOW, Bit.LOW, Bit.LOW)) shouldBe a
-            mux8Way16(a, b, c, d, e, f, g, h, listOf(Bit.HIGH, Bit.LOW, Bit.LOW)) shouldBe b
-            mux8Way16(a, b, c, d, e, f, g, h, listOf(Bit.LOW, Bit.HIGH, Bit.LOW)) shouldBe c
-            mux8Way16(a, b, c, d, e, f, g, h, listOf(Bit.HIGH, Bit.HIGH, Bit.LOW)) shouldBe d
-            mux8Way16(a, b, c, d, e, f, g, h, listOf(Bit.LOW, Bit.LOW, Bit.HIGH)) shouldBe e
-            mux8Way16(a, b, c, d, e, f, g, h, listOf(Bit.HIGH, Bit.LOW, Bit.HIGH)) shouldBe f
-            mux8Way16(a, b, c, d, e, f, g, h, listOf(Bit.LOW, Bit.HIGH, Bit.HIGH)) shouldBe g
-            mux8Way16(a, b, c, d, e, f, g, h, listOf(Bit.HIGH, Bit.HIGH, Bit.HIGH)) shouldBe h
-        }
-    }
-
-    test("dMux4Way関数") {
-        dMux4Way(Bit.HIGH, listOf(Bit.LOW, Bit.LOW)) shouldBe listOf(Bit.HIGH, Bit.LOW, Bit.LOW, Bit.LOW)
-        dMux4Way(Bit.HIGH, listOf(Bit.HIGH, Bit.LOW)) shouldBe listOf(Bit.LOW, Bit.HIGH, Bit.LOW, Bit.LOW)
-        dMux4Way(Bit.HIGH, listOf(Bit.LOW, Bit.HIGH)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.HIGH, Bit.LOW)
-        dMux4Way(Bit.HIGH, listOf(Bit.HIGH, Bit.HIGH)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.HIGH)
-
-        dMux4Way(Bit.LOW, listOf(Bit.LOW, Bit.LOW)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
-        dMux4Way(Bit.LOW, listOf(Bit.HIGH, Bit.LOW)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
-        dMux4Way(Bit.LOW, listOf(Bit.LOW, Bit.HIGH)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
-        dMux4Way(Bit.LOW, listOf(Bit.HIGH, Bit.HIGH)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
-    }
-
-    test("dMux8Way関数") {
-        dMux8Way(Bit.HIGH, listOf(Bit.LOW, Bit.LOW, Bit.LOW)) shouldBe listOf(Bit.HIGH, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
-        dMux8Way(Bit.HIGH, listOf(Bit.HIGH, Bit.LOW, Bit.LOW)) shouldBe listOf(Bit.LOW, Bit.HIGH, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
-        dMux8Way(Bit.HIGH, listOf(Bit.LOW, Bit.HIGH, Bit.LOW)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.HIGH, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
-        dMux8Way(Bit.HIGH, listOf(Bit.HIGH, Bit.HIGH, Bit.LOW)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.HIGH, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
-        dMux8Way(Bit.HIGH, listOf(Bit.LOW, Bit.LOW, Bit.HIGH)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.HIGH, Bit.LOW, Bit.LOW, Bit.LOW)
-        dMux8Way(Bit.HIGH, listOf(Bit.HIGH, Bit.LOW, Bit.HIGH)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.HIGH, Bit.LOW, Bit.LOW)
-        dMux8Way(Bit.HIGH, listOf(Bit.LOW, Bit.HIGH, Bit.HIGH)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.HIGH, Bit.LOW)
-        dMux8Way(Bit.HIGH, listOf(Bit.HIGH, Bit.HIGH, Bit.HIGH)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.HIGH)
-
-        dMux8Way(Bit.LOW, listOf(Bit.LOW, Bit.LOW, Bit.LOW)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
-        dMux8Way(Bit.LOW, listOf(Bit.HIGH, Bit.LOW, Bit.LOW)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
-        dMux8Way(Bit.LOW, listOf(Bit.LOW, Bit.HIGH, Bit.LOW)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
-        dMux8Way(Bit.LOW, listOf(Bit.HIGH, Bit.HIGH, Bit.LOW)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
-        dMux8Way(Bit.LOW, listOf(Bit.LOW, Bit.LOW, Bit.HIGH)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
-        dMux8Way(Bit.LOW, listOf(Bit.HIGH, Bit.LOW, Bit.HIGH)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
-        dMux8Way(Bit.LOW, listOf(Bit.LOW, Bit.HIGH, Bit.HIGH)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
-        dMux8Way(Bit.LOW, listOf(Bit.HIGH, Bit.HIGH, Bit.HIGH)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW)
-    }
 
     test("muxNWay16関数") {
         val bitArb = Arb.enum<Bit>()
