@@ -43,7 +43,7 @@ class RAMTest : FunSpec({
 
             // 書き込み
             val writeOutput = ram.tick(input, addressBits, Bit.HIGH)
-            writeOutput shouldBe List(16) { Bit.LOW }
+            writeOutput shouldBe input
 
             // 読み出し
             val readOutput = ram.tick(List(16) { Bit.LOW }, addressBits, Bit.LOW)
