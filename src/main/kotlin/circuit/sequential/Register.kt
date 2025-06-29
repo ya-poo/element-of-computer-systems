@@ -1,0 +1,20 @@
+package me.yapoo.computer.circuit.sequential
+
+import me.yapoo.computer.circuit.Bit
+
+class Register {
+    private val length = 16
+    private val bits = List(length) { OneBitRegister() }
+
+    fun tick(
+        input: List<Bit>,
+        load: Bit,
+    ): List<Bit> {
+        require(input.size == length) {
+            "Invalid input length: ${input.size}"
+        }
+        return input.zip(bits).map { (i, b) ->
+            b.tick(i, load)
+        }
+    }
+}
