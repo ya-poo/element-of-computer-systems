@@ -9,6 +9,8 @@ class OneBitRegister {
 
     private val dff = DataFlipFlop()
 
+    fun current(): Bit = dff.current()
+
     fun tick(
         input: Bit,
         load: Bit,
