@@ -147,6 +147,29 @@ fun mux8Way16(
     return mux(abcd, efgh, sel[2])
 }
 
+fun muxNWay16(
+    inputs: List<List<Bit>>,
+    sel: List<Bit>,
+): List<Bit> {
+    require(sel.isNotEmpty()) { "sel cannot be empty" }
+    require((1 shl sel.size) == inputs.size) { "inputs size must be 2^sel.size: inputs=${inputs.size}, sel.size=${sel.size}" }
+    require(inputs.all { it.size == 16 }) { "all inputs must be 16-bit" }
+
+    return when (sel.size) {
+        1 -> mux(inputs[0], inputs[1], sel[0])
+        2 -> mux4Way16(inputs[0], inputs[1], inputs[2], inputs[3], sel)
+        3 -> mux8Way16(inputs[0], inputs[1], inputs[2], inputs[3], inputs[4], inputs[5], inputs[6], inputs[7], sel)
+        else -> {
+            val mid = inputs.size / 2
+            val lower = inputs.subList(0, mid)
+            val upper = inputs.subList(mid, inputs.size)
+            val lowerResult = muxNWay16(lower, sel.dropLast(1))
+            val upperResult = muxNWay16(upper, sel.dropLast(1))
+            mux(lowerResult, upperResult, sel.last())
+        }
+    }
+}
+
 fun dMux4Way(
     input: Bit,
     sel: List<Bit>,
@@ -182,5 +205,29 @@ fun dMux8Way(
     return buildList {
         addAll(dMux4Way(abcd, listOf(sel[0], sel[1])))
         addAll(dMux4Way(efgh, listOf(sel[0], sel[1])))
+    }
+}
+
+fun dMuxNWay(
+    input: Bit,
+    sel: List<Bit>,
+): List<Bit> {
+    require(sel.isNotEmpty()) { "sel cannot be empty" }
+
+    return when (sel.size) {
+        1 -> dMux(input, sel[0]).toList()
+        2 -> dMux4Way(input, sel)
+        3 -> dMux8Way(input, sel)
+        else -> {
+            val highBit = sel.last()
+            val lowBits = sel.dropLast(1)
+            val (lower, upper) = dMux(input, highBit)
+            val lowerResult = dMuxNWay(lower, lowBits)
+            val upperResult = dMuxNWay(upper, lowBits)
+            buildList {
+                addAll(lowerResult)
+                addAll(upperResult)
+            }
+        }
     }
 }
