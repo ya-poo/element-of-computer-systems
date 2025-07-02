@@ -20,7 +20,10 @@ class RAMTest : FunSpec({
         Arb.int(0 until size).map { address -> size to address }
     }
 
-    fun createAddressBits(value: Int, size: Int): List<Bit> {
+    fun createAddressBits(
+        value: Int,
+        size: Int,
+    ): List<Bit> {
         val length = size.countTrailingZeroBits()
         return (0 until length).map { i ->
             if ((value shr i) and 1 == 1) Bit.HIGH else Bit.LOW

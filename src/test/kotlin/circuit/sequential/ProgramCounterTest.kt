@@ -8,7 +8,6 @@ import io.kotest.property.arbitrary.list
 import io.kotest.property.checkAll
 import me.yapoo.computer.circuit.Bit
 import me.yapoo.computer.circuit.inc
-import me.yapoo.computer.circuit.one
 import me.yapoo.computer.circuit.zero
 
 class ProgramCounterTest : FunSpec({
@@ -33,9 +32,9 @@ class ProgramCounterTest : FunSpec({
     test("load=HIGHの場合、入力値が次のクロックで出力される") {
         checkAll(bitListArb) { input ->
             val pc = ProgramCounter()
-            
+
             pc.tick(input, Bit.LOW, Bit.HIGH, Bit.LOW)
-            
+
             val output = pc.tick(zero(16), Bit.LOW, Bit.LOW, Bit.LOW)
             output shouldBe input
         }
@@ -55,12 +54,12 @@ class ProgramCounterTest : FunSpec({
     test("全フラグがLOWの場合、現在の値が保持される") {
         checkAll(bitListArb) { input ->
             val pc = ProgramCounter()
-            
+
             // 値を設定
             pc.tick(input, Bit.LOW, Bit.HIGH, Bit.LOW)
             val setValue = pc.tick(zero(16), Bit.LOW, Bit.LOW, Bit.LOW)
             setValue shouldBe input
-            
+
             // 全フラグLOWで値が保持される
             val output = pc.tick(zero(16), Bit.LOW, Bit.LOW, Bit.LOW)
             output shouldBe input

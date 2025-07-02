@@ -111,8 +111,6 @@ class BitTest : FunSpec({
         result4.second shouldBe Bit.LOW
     }
 
-
-
     test("muxNWay16関数") {
         val bitArb = Arb.enum<Bit>()
         val bitListArb = Arb.list(bitArb, 16..16)

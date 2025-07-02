@@ -91,7 +91,6 @@ fun mux(
     }
 }
 
-
 fun muxNWay16(
     inputs: List<List<Bit>>,
     sel: List<Bit>,
@@ -105,7 +104,7 @@ fun muxNWay16(
     if (sel.size == 1) {
         return mux(inputs[0], inputs[1], sel[0])
     }
-    
+
     val mid = inputs.size / 2
     val lower = inputs.subList(0, mid)
     val upper = inputs.subList(mid, inputs.size)
@@ -113,7 +112,6 @@ fun muxNWay16(
     val upperResult = muxNWay16(upper, sel.dropLast(1))
     return mux(lowerResult, upperResult, sel.last())
 }
-
 
 fun dMuxNWay(
     input: Bit,
@@ -129,7 +127,7 @@ fun dMuxNWay(
     if (sel.size == 1) {
         return dMux(input, sel[0]).toList()
     }
-    
+
     val highBit = sel.last()
     val lowBits = sel.dropLast(1)
     val (lower, upper) = dMux(input, highBit)
