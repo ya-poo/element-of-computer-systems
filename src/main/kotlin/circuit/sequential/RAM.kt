@@ -8,7 +8,7 @@ class RAM(
     private val n: Int,
 ) {
     init {
-        require(n in listOf(8, 64, 512, 4096, 16384)) {
+        require(n in listOf(8, 64, 512, 4096, 16384, 32768)) {
             "invalid n value: $n"
         }
     }
@@ -18,7 +18,8 @@ class RAM(
         64 -> 6
         512 -> 9
         4096 -> 12
-        else -> 14
+        16384 -> 14
+        else -> 15
     }
 
     private val registers = List(n) { Register() }
