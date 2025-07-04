@@ -10,9 +10,9 @@ import me.yapoo.computer.circuit.sequential.ProgramCounter
 import me.yapoo.computer.circuit.sequential.Register
 
 class CPU {
-    private val registerD = Register()
-    private val registerA = Register()
-    private val pc = ProgramCounter()
+    val registerD = Register()
+    val registerA = Register()
+    val pc = ProgramCounter()
 
     // input:
     //   inM[16],
@@ -56,7 +56,7 @@ class CPU {
         val jump = doInstructionC and (
             (instruction[2] and ng) or
                 (instruction[1] and zr) or
-                (instruction[0] and ng.not())
+                (instruction[0] and ng.not() and zr.not())
         )
 
         val outPc = pc.tick(registerA.current(), Bit.HIGH, jump, reset)
