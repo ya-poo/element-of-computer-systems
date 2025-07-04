@@ -39,4 +39,15 @@ class Memory {
 
         return memory.tick(input, address, load)
     }
+
+    fun read(address: List<Bit>): List<Bit> {
+        require(address.size == wordLength - 1) {
+            "Invalid address length: ${address.size}"
+        }
+        require(isAddressValid(address)) {
+            "Invalid address: address must be <= 24576"
+        }
+
+        return memory.read(address)
+    }
 }

@@ -50,4 +50,16 @@ class RAM(
 
         return muxNWay16(outputs, address)
     }
+
+    fun read(address: List<Bit>): List<Bit> {
+        require(address.size == k) {
+            "Invalid address length: ${address.size}"
+        }
+
+        val outputs = registers.map { register ->
+            register.current()
+        }
+
+        return muxNWay16(outputs, address)
+    }
 }

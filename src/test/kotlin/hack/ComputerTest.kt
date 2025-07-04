@@ -1,8 +1,11 @@
 package hack
 
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.shouldBe
 import me.yapoo.computer.circuit.Bit
 import me.yapoo.computer.hack.Computer
+import utils.bitToInt
+import utils.intToBit
 import utils.parseHackProgram
 
 class ComputerTest : FunSpec({
@@ -21,6 +24,9 @@ class ComputerTest : FunSpec({
         repeat(instructions.size) {
             computer.tick(Bit.LOW)
         }
-        // TODO: データメモリの 0 番目に 5 が入っている
+
+        val memoryValue = computer.readMemory(intToBit(0, 15))
+        val intValue = bitToInt(memoryValue)
+        intValue shouldBe 5
     }
 })

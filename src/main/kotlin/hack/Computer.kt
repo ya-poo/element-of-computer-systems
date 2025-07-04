@@ -28,4 +28,8 @@ class Computer(
         nextCPUInM = memoryOut
         nextInstructionAddress = cpuOut.pc
     }
+
+    fun readMemory(address: List<Bit>): List<Bit> {
+        return dataMemory.read(address)
+    }
 }
