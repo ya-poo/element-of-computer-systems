@@ -3,6 +3,7 @@ package me.yapoo.computer.circuit.sequential
 import me.yapoo.computer.circuit.Bit
 import me.yapoo.computer.circuit.dMuxNWay
 import me.yapoo.computer.circuit.muxNWay16
+import utilities.bitToInt
 
 class RAM(
     private val n: Int,
@@ -52,14 +53,15 @@ class RAM(
     }
 
     fun read(address: List<Bit>): List<Bit> {
+        // 本来は以下のような実装にするべきだが、パフォーマンスの問題があるので避けた
+        //   val outputs = registers.map { register ->
+        //       register.current()
+        //   }
+        //   return muxNWay16(outputs, address)
         require(address.size == k) {
             "Invalid address length: ${address.size}"
         }
-
-        val outputs = registers.map { register ->
-            register.current()
-        }
-
-        return muxNWay16(outputs, address)
+        val addressInt = bitToInt(address)
+        return registers[addressInt].current()
     }
 }
