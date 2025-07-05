@@ -8,7 +8,7 @@ fun parseHackProgram(lines: String): List<List<Bit>> {
         .map { line ->
             // コメント以降を除去
             // また hack プログラムは下位ビットが右に位置しており、扱いづらいので逆順にする
-            line.split("//")[0].trim().map { char ->
+            line.replace(" ", "").split("//")[0].map { char ->
                 when (char) {
                     '0' -> Bit.LOW
                     '1' -> Bit.HIGH
