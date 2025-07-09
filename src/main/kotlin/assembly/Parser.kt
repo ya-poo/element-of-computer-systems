@@ -1,27 +1,46 @@
 package me.yapoo.computer.assembly
 
 fun parseLine(line: String): Command? {
-    val command = line
-        .replace(" ", "")
-        .split("//")[0]
-
-    if (command.isBlank()) {
-        return null
-    }
-
-    return parseCommandA(command)
-        ?: parseCommandC(command)
+    return parseCommandA(line)
+        ?: parseCommandL(line)
+        ?: parseCommandC(line)
 }
 
 private fun parseCommandA(command: String): Command.A? {
     if (!command.startsWith("@")) {
         return null
     }
+    val valueOrSymbol = command.substring(1)
     val value = command.substring(1).toIntOrNull()
     if (value == null) {
-        throw Exception("invalid command A: $value")
+        require(validateSymbol(valueOrSymbol)) {
+            "不正な形式のシンボルです: $command"
+        }
+        return Command.A(
+            value = null,
+            symbol = valueOrSymbol,
+        )
     }
-    return Command.A(value)
+    return Command.A(
+        value = value,
+        symbol = null,
+    )
+}
+
+private fun parseCommandL(command: String): Command.L? {
+    if (
+        !command.startsWith("(") ||
+        !command.endsWith(")")
+    ) {
+        return null
+    }
+
+    val symbol = command.substring(1, command.length - 1)
+    require(validateSymbol(symbol)) {
+        "不正な形式のシンボルです: $command"
+    }
+
+    return Command.L(symbol)
 }
 
 private fun parseCommandC(command: String): Command.C {
@@ -50,4 +69,16 @@ private fun parseCommandC(command: String): Command.C {
     }?.let(Jump::valueOf)
 
     return Command.C(dest, comp, jump)
+}
+
+private val symbolRegex = Regex("[a-zA-Z0-9_.\$:]+")
+
+private fun validateSymbol(symbol: String): Boolean {
+    if (!symbol.matches(symbolRegex)) {
+        return false
+    }
+    if (symbol[0].digitToIntOrNull() != null) {
+        return false
+    }
+    return true
 }

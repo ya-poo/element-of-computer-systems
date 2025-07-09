@@ -1,9 +1,21 @@
 package me.yapoo.computer.assembly
 
-fun Command.A.toHack(): String {
-    val encodedValue = value
-        .toString(2)
-        .padStart(15, '0')
+fun Command.A.toHack(symbolTable: Map<String, Int>): String {
+    val encodedValue = if (value != null) {
+        value.toString(2)
+            .padStart(15, '0')
+    } else if (symbol != null) {
+        symbolTable[symbol]
+            ?.toString(2)
+            ?.padStart(15, '0')
+            .also {
+                requireNotNull(it) {
+                    "未定義のシンボルです: $it"
+                }
+            }
+    } else {
+        throw Exception("不正な形式の A 命令です")
+    }
 
     return "0$encodedValue"
 }

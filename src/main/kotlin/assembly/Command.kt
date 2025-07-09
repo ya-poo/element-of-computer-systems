@@ -2,13 +2,18 @@ package me.yapoo.computer.assembly
 
 sealed class Command {
     data class A(
-        val value: Int,
+        val value: Int?,
+        val symbol: String?,
     ) : Command()
 
     data class C(
         val dest: Dest?,
         val comp: Comp,
         val jump: Jump?,
+    ) : Command()
+
+    data class L(
+        val symbol: String,
     ) : Command()
 }
 
