@@ -1,6 +1,6 @@
 package assembly
 
-fun parseLine(line: String): Command? {
+fun parseLine(line: String): Command {
     return parseCommandA(line)
         ?: parseCommandL(line)
         ?: parseCommandC(line)
