@@ -1,11 +1,11 @@
-package me.yapoo.computer.circuit.sequential
+package circuit.sequential
 
+import circuit.Bit
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.enum
 import io.kotest.property.checkAll
-import me.yapoo.computer.circuit.Bit
 
 class OneBitRegisterTest : FunSpec({
     val bitArb = Arb.enum<Bit>()

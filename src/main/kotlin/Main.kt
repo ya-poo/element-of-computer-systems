@@ -1,6 +1,4 @@
-package me.yapoo.computer
-
-import me.yapoo.computer.assembly.assemble
+import assembly.assemble
 import java.io.File
 
 fun main() {

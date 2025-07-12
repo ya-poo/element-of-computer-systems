@@ -1,4 +1,4 @@
-package me.yapoo.computer.assembly
+package assembly
 
 fun Command.A.toHack(symbolTable: Map<String, Int>): String {
     val encodedValue = if (value != null) {

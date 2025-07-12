@@ -1,9 +1,9 @@
-package me.yapoo.computer.circuit.sequential
+package circuit.sequential
 
-import me.yapoo.computer.circuit.Bit
-import me.yapoo.computer.circuit.inc
-import me.yapoo.computer.circuit.mux
-import me.yapoo.computer.circuit.zero
+import circuit.Bit
+import circuit.inc
+import circuit.mux
+import circuit.zero
 
 class ProgramCounter {
     private val register = Register()

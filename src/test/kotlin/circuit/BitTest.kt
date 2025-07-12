@@ -1,4 +1,4 @@
-package me.yapoo.computer.circuit
+package circuit
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
@@ -198,7 +198,7 @@ class BitTest : FunSpec({
         dMuxNWay(Bit.HIGH, listOf(Bit.HIGH, Bit.HIGH, Bit.HIGH, Bit.HIGH)) shouldBe listOf(Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.LOW, Bit.HIGH)
 
         // LOW input test
-        checkAll(Arb.list(Arb.enum<Bit>(), 4..4)) { sel ->
+        checkAll(Arb.Companion.list(Arb.enum<Bit>(), 4..4)) { sel ->
             dMuxNWay(Bit.LOW, sel).all { it == Bit.LOW } shouldBe true
         }
     }

@@ -1,4 +1,4 @@
-package me.yapoo.computer.assembly
+package assembly
 
 fun parseLine(line: String): Command? {
     return parseCommandA(line)

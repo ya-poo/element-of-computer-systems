@@ -1,6 +1,6 @@
 package utils
 
-import me.yapoo.computer.circuit.Bit
+import circuit.Bit
 
 fun parseHackProgram(lines: String): List<List<Bit>> {
     return lines.split("\n")

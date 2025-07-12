@@ -1,13 +1,13 @@
-package me.yapoo.computer.hack
+package hack
 
-import me.yapoo.computer.circuit.Bit
-import me.yapoo.computer.circuit.alu
-import me.yapoo.computer.circuit.and
-import me.yapoo.computer.circuit.mux
-import me.yapoo.computer.circuit.not
-import me.yapoo.computer.circuit.or
-import me.yapoo.computer.circuit.sequential.ProgramCounter
-import me.yapoo.computer.circuit.sequential.Register
+import circuit.Bit
+import circuit.alu
+import circuit.and
+import circuit.mux
+import circuit.not
+import circuit.or
+import circuit.sequential.ProgramCounter
+import circuit.sequential.Register
 
 class CPU {
     val registerD = Register()

@@ -1,9 +1,8 @@
 package hack
 
+import circuit.Bit
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
-import me.yapoo.computer.circuit.Bit
-import me.yapoo.computer.hack.Computer
 import utilities.bitToInt
 import utilities.intToBit
 import utils.parseHackProgram

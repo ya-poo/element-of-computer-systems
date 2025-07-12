@@ -1,7 +1,7 @@
-package me.yapoo.computer.hack
+package hack
 
-import me.yapoo.computer.circuit.Bit
-import me.yapoo.computer.circuit.sequential.RAM
+import circuit.Bit
+import circuit.sequential.RAM
 
 class Memory {
     private val wordLength = 16

@@ -1,7 +1,7 @@
-package me.yapoo.computer.circuit.sequential
+package circuit.sequential
 
-import me.yapoo.computer.circuit.Bit
-import me.yapoo.computer.circuit.mux
+import circuit.Bit
+import circuit.mux
 
 class OneBitRegister {
     // if load(t-1) then out(t) = in(t-1)

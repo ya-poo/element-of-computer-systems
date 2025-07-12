@@ -1,4 +1,4 @@
-package me.yapoo.computer.assembly
+package assembly
 
 import java.io.File
 

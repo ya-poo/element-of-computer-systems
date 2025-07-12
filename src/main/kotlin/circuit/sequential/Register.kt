@@ -1,6 +1,6 @@
-package me.yapoo.computer.circuit.sequential
+package circuit.sequential
 
-import me.yapoo.computer.circuit.Bit
+import circuit.Bit
 
 class Register {
     private val length = 16

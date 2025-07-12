@@ -1,4 +1,4 @@
-package me.yapoo.computer.circuit
+package circuit
 
 fun halfAdder(
     a: Bit,

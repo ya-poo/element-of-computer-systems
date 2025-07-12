@@ -1,4 +1,4 @@
-package me.yapoo.computer.circuit
+package circuit
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe

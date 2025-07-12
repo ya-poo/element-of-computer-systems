@@ -1,4 +1,4 @@
-package me.yapoo.computer.assembly
+package assembly
 
 sealed class Command {
     data class A(

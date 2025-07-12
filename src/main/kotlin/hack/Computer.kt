@@ -1,7 +1,7 @@
-package me.yapoo.computer.hack
+package hack
 
-import me.yapoo.computer.circuit.Bit
-import me.yapoo.computer.circuit.zero
+import circuit.Bit
+import circuit.zero
 import utilities.bitToInt
 import utilities.intToBit
 

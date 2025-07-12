@@ -1,9 +1,9 @@
-package me.yapoo.computer.hack
+package hack
 
-import me.yapoo.computer.circuit.Bit
-import me.yapoo.computer.circuit.muxNWay16
-import me.yapoo.computer.circuit.sequential.Register
-import me.yapoo.computer.circuit.zero
+import circuit.Bit
+import circuit.muxNWay16
+import circuit.sequential.Register
+import circuit.zero
 
 // 命令メモリ
 class ROM32K(

@@ -1,8 +1,8 @@
-package me.yapoo.computer.circuit.sequential
+package circuit.sequential
 
-import me.yapoo.computer.circuit.Bit
-import me.yapoo.computer.circuit.dMuxNWay
-import me.yapoo.computer.circuit.muxNWay16
+import circuit.Bit
+import circuit.dMuxNWay
+import circuit.muxNWay16
 import utilities.bitToInt
 
 class RAM(
