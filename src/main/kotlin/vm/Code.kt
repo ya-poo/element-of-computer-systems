@@ -87,6 +87,22 @@ fun Command.toHack(filename: String): String {
 
         is Command.Pop -> this.toHack(filename)
 
+        is Command.Label -> """
+            ($filename$$symbol)
+        """.trimIndent()
+
+        is Command.Goto -> """
+            @$filename$$symbol
+            0;JMP
+        """.trimIndent()
+
+        is Command.IfGoto -> """
+            @SP
+            AM=M-1
+            D=M
+            @$filename$$symbol
+            D;JNE
+        """.trimIndent()
         else -> TODO()
     }
     val suffix = "// end: ${this::class.java.simpleName}"
