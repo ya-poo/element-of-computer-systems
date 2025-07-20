@@ -9,34 +9,24 @@ fun Command.toHack(filename: String): String {
         is Command.Sub,
         is Command.And,
         is Command.Or,
-        -> """
-                @SP
-                AM=M-1
-                D=A
-                @SP
-                AM=M-1
-                M=M${
-            when (this) {
-                is Command.Add -> {
-                    "+"
-                }
-
-                is Command.Sub -> {
-                    "-"
-                }
-
-                is Command.And -> {
-                    "&"
-                }
-
-                else -> {
-                    "|"
-                }
+        -> {
+            val calc = when (this) {
+                is Command.Add -> "M=D+M"
+                is Command.Sub -> "M=M-D"
+                is Command.And -> "M=D&M"
+                else -> "M=D|M"
             }
-        }D
+            """
+                @SP
+                AM=M-1
+                D=M
+                @SP
+                AM=M-1
+                $calc
                 @SP
                 M=M+1
-        """.trimIndent()
+            """.trimIndent()
+        }
 
         is Command.Neg -> """
             @SP
@@ -148,13 +138,15 @@ fun Command.Push.toHack(filename: String): String {
 
         Segment.Pointer -> {
             """
-                @${if (index == 0) {
-                "THIS"
-            } else if (index == 1) {
-                "THAT"
-            } else {
-                throw Exception("Invalid pointer index")
-            }}
+                @${
+                if (index == 0) {
+                    "THIS"
+                } else if (index == 1) {
+                    "THAT"
+                } else {
+                    throw Exception("Invalid pointer index")
+                }
+            }
                 D=M
             """.trimIndent()
         }
@@ -193,7 +185,7 @@ fun Command.Pop.toHack(filename: String): String {
                     else -> "THAT"
                 }
             }
-                D=M+D
+                D=D+M
                 @R13
                 M=D
                 
@@ -222,9 +214,11 @@ fun Command.Pop.toHack(filename: String): String {
                     0 -> {
                         "THIS"
                     }
+
                     1 -> {
                         "THAT"
                     }
+
                     else -> {
                         throw Exception("Invalid pointer index")
                     }
