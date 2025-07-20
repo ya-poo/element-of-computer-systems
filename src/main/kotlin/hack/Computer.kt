@@ -63,4 +63,13 @@ class Computer(
             row.joinToString("")
         }
     }
+
+    fun getMemoryValues(): String {
+        return (0 until 24576).map { i ->
+            val value = dataMemory
+                .read(intToBit(i, 15))
+                .let { bitToInt(it) }
+            "$i: $value"
+        }.joinToString("\n")
+    }
 }
