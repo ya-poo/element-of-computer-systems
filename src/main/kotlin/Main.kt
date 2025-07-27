@@ -1,7 +1,7 @@
-import assembly.assemble
+import vm.translate
 import java.io.File
 
 fun main() {
-    val path = File("src/main/resources/hack/Add.asm").absolutePath
-    assemble(path)
+    val path = File("src/main/resources/08/BasicLoop").absolutePath
+    translate(path, "BasicLoop.asm")
 }

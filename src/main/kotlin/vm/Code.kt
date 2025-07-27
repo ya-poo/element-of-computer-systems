@@ -4,7 +4,7 @@ import java.util.UUID
 
 fun Command.toHack(filename: String): String {
     val prefix = "// start: ${this::class.java.simpleName}"
-    val calculation = when (this) {
+    val calculation: String = when (this) {
         is Command.Add,
         is Command.Sub,
         is Command.And,
@@ -18,13 +18,11 @@ fun Command.toHack(filename: String): String {
             }
             """
                 @SP
-                AM=M-1
+                M=M-1
+                A=M
                 D=M
-                @SP
-                AM=M-1
+                A=A-1
                 $calc
-                @SP
-                M=M+1
             """.trimIndent()
         }
 
@@ -41,10 +39,12 @@ fun Command.toHack(filename: String): String {
             val label = UUID.randomUUID().toString()
             """
                 @SP
-                AM=M-1
+                M=M-1
+                A=M
                 D=M
                 @SP
-                AM=M-1
+                M=M-1
+                A=M
                 D=M-D
                 @${label}_TRUE
                 D;${
@@ -98,12 +98,161 @@ fun Command.toHack(filename: String): String {
 
         is Command.IfGoto -> """
             @SP
-            AM=M-1
+            M=M-1
+            A=M
             D=M
             @$filename$$symbol
             D;JNE
         """.trimIndent()
-        else -> TODO()
+
+        is Command.Function -> {
+            listOf(
+                "($functionName)",
+                """
+                    @0
+                    D=A
+                    @SP
+                    A=M
+                    M=D
+                    @SP
+                    M=M+1
+                """.trimIndent().repeat(nLocals),
+            ).joinToString("\n")
+        }
+
+        is Command.Call -> {
+            val returnAddressLabel = "RETURN_${functionName}_${UUID.randomUUID()}"
+            """
+                @$returnAddressLabel
+                D=A
+                
+                // push return-address
+                @SP
+                A=M
+                M=D
+                @SP
+                M=M+1
+                
+                // push LCL
+                @LCL
+                D=M
+                @SP
+                A=M
+                M=D
+                @SP
+                M=M+1
+
+                // push ARG
+                @ARG
+                D=M
+                @SP
+                A=M
+                M=D
+                @SP
+                M=M+1
+
+                // push THIS
+                @THIS
+                D=M
+                @SP
+                A=M
+                M=D
+                @SP
+                M=M+1
+
+                // push THAT
+                @THAT
+                D=M
+                @SP
+                A=M
+                M=D
+                @SP
+                M=M+1
+
+                // ARG = SP - nArgs - 5
+                @SP
+                D=M
+                @${nArgs + 5}
+                D=D-A
+                @ARG
+                M=D
+
+                // LCL = SP
+                @SP
+                D=M
+                @LCL
+                M=D
+
+                // goto f
+                @$functionName
+                0;JMP
+                
+                ($returnAddressLabel)
+            """.trimIndent()
+        }
+
+        is Command.Return -> {
+            """
+                // FRAME = M[R13] = LCL
+                @LCL
+                D=M
+                @R13
+                M=D
+
+                // RET = M[R14] = *(FRAME-5)
+                @5
+                A=D-A
+                D=M
+                @R14          // R14 ← RET
+                M=D
+
+                // *ARG = pop()
+                @SP
+                M=M-1
+                A=M
+                D=M
+                @ARG
+                A=M
+                M=D
+
+                @ARG          // SP = ARG + 1
+                D=M+1
+                @SP
+                M=D
+
+                @R13          // THAT = *(FRAME-1)
+                M=M-1
+                A=M
+                D=M
+                @THAT
+                M=D
+
+                @R13          // THIS = *(FRAME-2)
+                M=M-1
+                A=M
+                D=M
+                @THIS
+                M=D
+
+                @R13          // ARG = *(FRAME-3)
+                M=M-1
+                A=M
+                D=M
+                @ARG
+                M=D
+
+                @R13          // LCL = *(FRAME-4)
+                M=M-1
+                A=M
+                D=M
+                @LCL
+                M=D
+
+                @R14          // goto RET
+                A=M
+                0;JMP
+            """.trimIndent()
+        }
     }
     val suffix = "// end: ${this::class.java.simpleName}"
 
@@ -206,7 +355,8 @@ fun Command.Pop.toHack(filename: String): String {
                 M=D
                 
                 @SP
-                AM=M-1
+                M=M-1
+                A=M
                 D=M
                 
                 @R13
@@ -222,7 +372,8 @@ fun Command.Pop.toHack(filename: String): String {
         Segment.Pointer -> {
             """
                 @SP
-                AM=M-1
+                M=M-1
+                A=M
                 D=M
                 
                 @${
@@ -247,7 +398,8 @@ fun Command.Pop.toHack(filename: String): String {
         Segment.Temp -> {
             """
                 @SP
-                AM=M-1
+                M=M-1
+                A=M
                 D=M
                 
                 @${if (index in 0..7) index + 5 else throw Exception("Invalid temp index")}
@@ -258,7 +410,8 @@ fun Command.Pop.toHack(filename: String): String {
         Segment.Static -> {
             """
                 @SP
-                AM=M-1
+                M=M-1
+                A=M
                 D=M
                 
                 @$filename.$index
