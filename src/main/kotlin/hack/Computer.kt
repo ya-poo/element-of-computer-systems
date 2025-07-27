@@ -21,12 +21,21 @@ class Computer(
         initialMemory.forEach { (address, value) ->
             dataMemory.tick(value, Bit.HIGH, address)
         }
+        // 初期状態でアドレス0のメモリ値をCPUに提供
+        nextCPUInM = dataMemory.read(zero(15))
     }
 
     fun tick(reset: Bit) {
         val instruction = instructionMemory.current(nextInstructionAddress)
         if (debug) {
-            println("next instruction = ${bitToInt(nextInstructionAddress)}")
+            println(
+                "next instruction = ${bitToInt(nextInstructionAddress)} (${instruction.joinToString("") {
+                    when (it) {
+                        Bit.LOW -> "0"
+                        Bit.HIGH -> "1"
+                    }
+                }.reversed()})",
+            )
         }
         val cpuOut = cpu.tick(
             nextCPUInM,
@@ -45,6 +54,11 @@ class Computer(
             println("A = ${bitToInt(cpu.registerA.current())}")
             println("D = ${bitToInt(cpu.registerD.current())}")
             println("M[A] = ${bitToInt(dataMemory.read(cpu.registerA.current().subList(0, 15)))}")
+            println("nextCPUInM = ${bitToInt(memoryOut)}")
+            println("cpuOut.outM = ${bitToInt(cpuOut.outM)}")
+            println("cpuOut.writeM = ${cpuOut.writeM}")
+            println("cpuOut.addressM = ${bitToInt(cpuOut.addressM)}")
+            println(getMemoryValues())
         }
     }
 
@@ -65,7 +79,10 @@ class Computer(
     }
 
     fun getMemoryValues(): String {
-        return (0 until 24576).map { i ->
+        val targets = listOf(
+            *((0..2).toList().toTypedArray()),
+        )
+        return targets.map { i ->
             val value = dataMemory
                 .read(intToBit(i, 15))
                 .let { bitToInt(it) }
