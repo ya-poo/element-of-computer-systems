@@ -1,6 +1,6 @@
 package vm
 
-import java.util.UUID
+import utilities.createRandomSymbol
 
 fun Command.toHack(filename: String): String {
     val prefix = "// start: ${this::class.java.simpleName}"
@@ -36,7 +36,7 @@ fun Command.toHack(filename: String): String {
         is Command.Gt,
         is Command.Lt,
         -> {
-            val label = UUID.randomUUID().toString()
+            val label = createRandomSymbol()
             """
                 @SP
                 M=M-1
@@ -121,7 +121,7 @@ fun Command.toHack(filename: String): String {
         }
 
         is Command.Call -> {
-            val returnAddressLabel = "RETURN_${functionName}_${UUID.randomUUID()}"
+            val returnAddressLabel = "RETURN_${functionName}_${createRandomSymbol()}"
             """
                 @$returnAddressLabel
                 D=A

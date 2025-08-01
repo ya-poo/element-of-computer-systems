@@ -36,18 +36,9 @@ fun createSymbolTable(commands: Sequence<Command>): Map<String, Int> {
     return buildMap {
         var nextCommandAddress = 0
         var variables = 16
+
         commands.forEach { command ->
             if (
-                command is Command.A &&
-                command.symbol != null &&
-                !this.containsKey(command.symbol)
-            ) {
-                this.put(
-                    key = command.symbol,
-                    value = variables,
-                )
-                variables++
-            } else if (
                 command is Command.L &&
                 !this.containsKey(command.symbol)
             ) {
@@ -59,6 +50,20 @@ fun createSymbolTable(commands: Sequence<Command>): Map<String, Int> {
 
             if (command !is Command.L) {
                 nextCommandAddress++
+            }
+        }
+        commands.forEach { command ->
+            if (
+                command is Command.A &&
+                command.symbol != null &&
+                !this.containsKey(command.symbol) &&
+                !defaultSymbolTable.containsKey(command.symbol)
+            ) {
+                this.put(
+                    key = command.symbol,
+                    value = variables,
+                )
+                variables++
             }
         }
         putAll(defaultSymbolTable)
