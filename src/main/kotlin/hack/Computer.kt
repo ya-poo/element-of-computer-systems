@@ -80,7 +80,8 @@ class Computer(
 
     fun getMemoryValues(): String {
         val targets = listOf(
-            *((0..2).toList().toTypedArray()),
+            0,
+            *((256..259).toList().toTypedArray()),
         )
         return targets.map { i ->
             val value = dataMemory

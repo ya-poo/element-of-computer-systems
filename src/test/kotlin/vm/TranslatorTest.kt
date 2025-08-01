@@ -35,11 +35,40 @@ class TranslatorTest : FunSpec(
             }.toList()
 
             val computer = Computer(instructions = instructionsBit)
-            repeat(25) {
+            repeat(instructionsBit.size) {
                 computer.tick(Bit.LOW)
             }
 
             bitToInt(computer.readMemory(intToBit(256, 15))) shouldBe 15
+        }
+
+        test("StackTest") {
+            val assembly = translateLines(
+                "StackTest",
+                """
+                    push constant 17
+                    push constant 17
+                    eq
+                """.trimIndent().split("\n").asSequence(),
+            ).flatMap {
+                it.split("\n")
+            }.toList()
+
+            (bootStrap + assembly).forEach {
+                println(it)
+            }
+
+            val instructions = assembleLines(bootStrap + assembly)
+            val instructionsBit = instructions.map {
+                println(it)
+                parseBit(it.reversed())
+            }.toList()
+
+            val computer = Computer(instructions = instructionsBit, debug = true)
+            repeat(instructionsBit.size) {
+                computer.tick(Bit.LOW)
+            }
+            bitToInt(computer.readMemory(intToBit(256, 15))) shouldBe -1
         }
     },
 )
