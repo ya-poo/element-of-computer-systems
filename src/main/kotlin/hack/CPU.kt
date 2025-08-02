@@ -49,9 +49,9 @@ class CPU {
             instruction[7],
             instruction[6],
         )
-        val writeToA = instruction[5]
-        val writeToD = instruction[4]
-        val writeToM = instruction[3]
+        val writeToA = doInstructionC and instruction[5]
+        val writeToD = doInstructionC and instruction[4]
+        val writeToM = doInstructionC and instruction[3]
 
         val jump = doInstructionC and (
             (instruction[2] and ng) or
