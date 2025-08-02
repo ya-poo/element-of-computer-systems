@@ -49,6 +49,22 @@ class TranslatorTest : FunSpec(
                     push constant 17
                     push constant 17
                     eq
+                    push constant 892
+                    push constant 891
+                    lt
+                    push constant 32767
+                    push constant 32766
+                    gt
+                    push constant 56
+                    push constant 31
+                    push constant 53
+                    add
+                    push constant 112
+                    sub
+                    neg
+                    and
+                    push constant 82
+                    or
                 """.trimIndent().split("\n").asSequence(),
             ).flatMap {
                 it.split("\n")
@@ -64,11 +80,15 @@ class TranslatorTest : FunSpec(
                 parseBit(it.reversed())
             }.toList()
 
-            val computer = Computer(instructions = instructionsBit, debug = true)
+            val computer = Computer(instructions = instructionsBit)
             repeat(instructionsBit.size) {
                 computer.tick(Bit.LOW)
             }
+            bitToInt(computer.readMemory(intToBit(0, 15))) shouldBe 260
             bitToInt(computer.readMemory(intToBit(256, 15))) shouldBe -1
+            bitToInt(computer.readMemory(intToBit(257, 15))) shouldBe 0
+            bitToInt(computer.readMemory(intToBit(258, 15))) shouldBe -1
+            bitToInt(computer.readMemory(intToBit(259, 15))) shouldBe 90
         }
     },
 )

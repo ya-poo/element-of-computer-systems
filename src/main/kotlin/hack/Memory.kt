@@ -33,8 +33,8 @@ class Memory {
         require(address.size == wordLength - 1) {
             "Invalid address length: ${address.size}"
         }
-        require(isAddressValid(address)) {
-            "Invalid address: address must be <= 24576"
+        require(load == Bit.LOW || isAddressValid(address)) {
+            "Invalid address: ${address}: address must be <= 24576"
         }
 
         return memory.tick(input, address, load)
