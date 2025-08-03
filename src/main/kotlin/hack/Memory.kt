@@ -34,7 +34,7 @@ class Memory {
             "Invalid address length: ${address.size}"
         }
         require(load == Bit.LOW || isAddressValid(address)) {
-            "Invalid address: ${address}: address must be <= 24576"
+            "Invalid address: $address: address must be <= 24576"
         }
 
         return memory.tick(input, address, load)

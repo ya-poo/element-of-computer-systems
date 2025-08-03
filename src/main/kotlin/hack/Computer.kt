@@ -29,12 +29,14 @@ class Computer(
         val instruction = instructionMemory.current(nextInstructionAddress)
         if (debug) {
             println(
-                "next instruction = ${bitToInt(nextInstructionAddress)} (${instruction.joinToString("") {
-                    when (it) {
-                        Bit.LOW -> "0"
-                        Bit.HIGH -> "1"
-                    }
-                }.reversed()})",
+                "next instruction = ${bitToInt(nextInstructionAddress)} (${
+                    instruction.joinToString("") {
+                        when (it) {
+                            Bit.LOW -> "0"
+                            Bit.HIGH -> "1"
+                        }
+                    }.reversed()
+                })",
             )
         }
         val cpuOut = cpu.tick(
@@ -80,8 +82,13 @@ class Computer(
 
     fun getMemoryValues(): String {
         val targets = listOf(
-            0,
-            *((256..259).toList().toTypedArray()),
+            256,
+            300,
+            401,
+            402,
+            3006,
+            3012,
+            3015,
         )
         return targets.map { i ->
             val value = dataMemory
